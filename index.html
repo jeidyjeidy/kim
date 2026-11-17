@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠팡 무건전지/USB 충전식 체중계 3종 비교 대시보드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --badge-warning-bg: #fef3c7;
+            --badge-warning-text: #92400e;
+            --badge-green-bg: #ecfdf5;
+            --badge-green-text: #065f46;
+            --badge-blue-bg: #eff6ff;
+            --badge-blue-text: #1e40af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 20px 16px 60px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 영역 */
+        header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .header-meta {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: #ffffff;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+        }
+
+        .notice-banner {
+            background-color: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-size: 0.875rem;
+            color: #78350f;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.45;
+        }
+
+        /* 3종 카드 그리드 (모바일 친화적) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 실사 이미지 컨테이너 */
+        .card-img-wrap {
+            width: 100%;
+            height: 200px;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover .card-img-wrap img {
+            transform: scale(1.03);
+        }
+
+        .card-img-wrap .badge-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.75);
+            color: #ffffff;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .tag-oa { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .tag-atflee { background: #fdf2f8; color: #9d174d; }
+        .tag-cas { background: #f1f5f9; color: #334155; }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .charging-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #047857;
+            background: #d1fae5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .card-price-box {
+            margin: 10px 0 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .price-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .price-val {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #e11d48;
+        }
+
+        .price-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .info-list {
+            list-style: none;
+            font-size: 0.875rem;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .info-list strong {
+            color: var(--text-main);
+            flex-shrink: 0;
+        }
+
+        /* 확인 필요 뱃지 */
+        .badge-need-check {
+            display: inline-block;
+            background-color: var(--badge-warning-bg);
+            color: var(--badge-warning-text);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        /* 쿠팡 이동 버튼 */
+        .btn-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            background-color: #0284c7;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: auto;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-link:hover, .btn-link:active {
+            background-color: #0369a1;
+        }
+
+        /* 비교 테이블 */
+        .table-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .table-section h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--text-sub);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td {
+            color: var(--text-main);
+        }
+
+        /* 팁 섹션 */
+        .guide-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 18px;
+            font-size: 0.875rem;
+            color: #14532d;
+        }
+
+        .guide-box h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .guide-box ul {
+            padding-left: 20px;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 14px 10px 40px;
+            }
+            .header-title {
+                font-size: 1.3rem;
+            }
+            .card {
+                padding: 16px;
+            }
+            .card-img-wrap {
+                height: 180px;
+            }
+            .table-section {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 헤더 -->
+    <header>
+        <h1 class="header-title">🔌 쿠팡 무건전지/USB 충전식 체중계 3종 실사 비교</h1>
+        <div class="header-meta">
+            <span>📅 <strong>확인 일자:</strong> 2026년 11월 17일</span>
+            <span>•</span>
+            <span>🔋 <strong>선정 기준:</strong> 건전지 구매 필요 없는 충전식/자가발전 실제 제품</span>
+        </div>
+    </header>
+
+    <!-- 안내 사항 배너 -->
+    <div class="notice-banner">
+        <span>⚠️</span>
+        <div>
+            <strong>안내 사항:</strong> 쿠팡 로켓배송 판매 상품의 특성상 할인 쿠폰, 와우 회원가, 재고 현황에 따라 가격이 실시간 변동됩니다.
+            조회 시점에 확인되지 않은 실시간 평점 및 최종 결제 금액은 임의로 지어내지 않고 <span class="badge-need-check">확인 필요</span>로 표기하였습니다.
+        </div>
+    </div>
+
+    <!-- 3종 카드 그리드 -->
+    <div class="cards-grid">
+        
+        <!-- 1. 오아 C타입 충전 스마트 체중계 -->
+        <article class="card">
+            <div>
+                <!-- 실사 제품 이미지 -->
+                <div class="card-img-wrap">
+                    <span class="badge-indicator">실사 등록</span>
+                    <img src="product_oa.jpg" alt="오아 스마트 체지방 체중계 실사" loading="lazy">
+                </div>
+
+                <span class="card-tag tag-oa">가성비 C타입 충전</span>
+                <h2 class="card-title">오아 스마트 체지방 체중계 (OWM-001WH)</h2>
+                <div class="charging-badge">⚡ USB Type-C 포트 충전식</div>
+                
+                <div class="card-price-box">
+                    <span class="price-label">조회 기준 판매가</span>
+                    <div class="price-val">약 24,800원 대</div>
+                    <div class="price-note">※ 와우할인/쿠폰 적용가 <span class="badge-need-check">확인 필요</span></div>
+                </div>
+
+                <ul class="info-list">
+                    <li>
+                        <strong>충전 방식:</strong> 스마트폰과 동일한 C타입 케이블 간편 충전
+                    </li>
+                    <li>
+                        <strong>측정 기능:</strong> 체중 + 체지방률, BMI, 근육량 등 스마트 체성분 분석
+                    </li>
+                    <li>
+                        <strong>앱 연동:</strong> 스마트폰 전용 앱 블루투스 연동
+                    </li>
+                    <li>
+                        <strong>외형/특징:</strong> 깔끔한 화이트 강화유리 + 숨김형 백라이트 LED 화면
+                    </li>
+                    <li>
+                        <strong>실시간 후기/평점:</strong> <span class="badge-need-check">확인 필요</span>
+                    </li>
+                </ul>
+            </div>
+
+            <a href="https://www.coupang.com/np/search?component=&q=%EC%98%A4%EC%95%84+%EC%8A%A4%EB%A7%88%ED%8A%88+%EC%B2%B4%EC%A4%91%EA%B3%84+OWM-001WH" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-link">
+                쿠팡에서 실시간 가격 확인 ↗
+            </a>
+        </article>
+
+        <!-- 2. 앳플리 T5 충전형 스마트 체중계 -->
+        <article class="card">
+            <div>
+                <!-- 실사 제품 이미지 -->
+                <div class="card-img-wrap">
+                    <span class="badge-indicator">실사 등록</span>
+                    <img src="product_t5_matin.jpg" alt="앳플리 T5 충전형 체중계 실사" loading="lazy">
+                </div>
+
+                <span class="card-tag tag-atflee">베스트셀러 충전형</span>
+                <h2 class="card-title">앳플리 T5 충전형 스마트 체성분 체중계</h2>
+                <div class="charging-badge">⚡ USB 리튬 배터리 내장 충전</div>
+                
+                <div class="card-price-box">
+                    <span class="price-label">조회 기준 판매가</span>
+                    <div class="price-val">약 29,900원 대</div>
+                    <div class="price-note">※ 정가 32,900원 / 쿠폰 적용가 <span class="badge-need-check">확인 필요</span></div>
+                </div>
+
+                <ul class="info-list">
+                    <li>
+                        <strong>충전 방식:</strong> USB 케이블로 충전하는 내장 리튬 배터리 (완충 시 수개월 사용)
+                    </li>
+                    <li>
+                        <strong>측정 기능:</strong> 18가지 체성분 분석 (체지방, 골격근량, 기초대사량 등)
+                    </li>
+                    <li>
+                        <strong>앱 연동:</strong> Fitdays 전용 앱 (Apple 건강 / Google Fit 연동 지원)
+                    </li>
+                    <li>
+                        <strong>외형/특징:</strong> 4개 정밀 BIA 금속 전극 패드, 유아/반려동물 측정 모드
+                    </li>
+                    <li>
+                        <strong>실시간 후기/평점:</strong> <span class="badge-need-check">확인 필요</span> (로켓배송 인기 모델)
+                    </li>
+                </ul>
+            </div>
+
+            <a href="https://www.coupang.com/np/search?component=&q=%EC%95%B3%ED%94%8C%EB%A6%AC+T5+%EC%B6%A9%EC%A0%84%ED%98%95" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-link">
+                쿠팡에서 실시간 가격 확인 ↗
+            </a>
+        </article>
+
+        <!-- 3. 카스 H50 무전원 자가발전 펌핑식 체중계 -->
+        <article class="card">
+            <div>
+                <!-- 실사 제품 이미지 -->
+                <div class="card-img-wrap">
+                    <span class="badge-indicator">실사 등록</span>
+                    <img src="product_h50.jpg" alt="카스 H50 자가발전 체중계 실사" loading="lazy">
+                </div>
+
+                <span class="card-tag tag-cas">계측전문 무건전지</span>
+                <h2 class="card-title">카스(CAS) 무전원 펌핑 자가발전 체중계 (H50)</h2>
+                <div class="charging-badge">⚡ 발끝 원터치 자가발전 충전</div>
+                
+                <div class="card-price-box">
+                    <span class="price-label">조회 기준 판매가</span>
+                    <div class="price-val">약 39,800원 대</div>
+                    <div class="price-note">※ 쿠팡 판매처/카드할인 <span class="badge-need-check">확인 필요</span></div>
+                </div>
+
+                <ul class="info-list">
+                    <li>
+                        <strong>발전 방식:</strong> 케이블·건전지 일체 불필요, 발끝 1회 펌핑으로 자가충전 구동
+                    </li>
+                    <li>
+                        <strong>측정 기능:</strong> 50g 단위 초정밀 체중 측정 (CAS 계측기 전문 기술)
+                    </li>
+                    <li>
+                        <strong>앱 연동:</strong> 미지원 (단순 체중 고정밀 표시)
+                    </li>
+                    <li>
+                        <strong>외형/특징:</strong> 고급 스테인리스 스틸 상판으로 위생적이고 파손 위험 없는 견고함
+                    </li>
+                    <li>
+                        <strong>실시간 후기/평점:</strong> <span class="badge-need-check">확인 필요</span>
+                    </li>
+                </ul>
+            </div>
+
+            <a href="https://www.coupang.com/np/search?component=&q=%EC%B9%B4%EC%8A%A4+%EC%B2%B4%EC%A4%91%EA%B3%84+H50" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-link">
+                쿠팡에서 실시간 가격 확인 ↗
+            </a>
+        </article>
+
+    </div>
+
+    <!-- 상세 비교 표 -->
+    <section class="table-section">
+        <h3>📊 충전/무건전지 체중계 3종 사양 비교</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>비교 항목</th>
+                    <th>1. 오아 스마트 체지방 (OWM-001WH)</th>
+                    <th>2. 앳플리 T5 스마트 충전형</th>
+                    <th>3. 카스 펌핑 자가발전 (H50)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>제품 실사 외형</strong></td>
+                    <td>화이트 글래스 + C타입 포트</td>
+                    <td>슬림 화이트 + 4개 BIA 전극</td>
+                    <td>헤어라인 스테인리스 스틸 + 중앙 펌프 버튼</td>
+                </tr>
+                <tr>
+                    <td><strong>전원 구동 방식</strong></td>
+                    <td>USB Type-C 포트 충전식</td>
+                    <td>USB 내장 리튬 배터리 충전식</td>
+                    <td>발끝 펌핑 무전원 자가발전식</td>
+                </tr>
+                <tr>
+                    <td><strong>확인된 가격대</strong></td>
+                    <td>약 24,800원 대</td>
+                    <td>약 29,900원 대</td>
+                    <td>약 39,800원 대</td>
+                </tr>
+                <tr>
+                    <td><strong>측정 데이터</strong></td>
+                    <td>체중 + 체지방/BMI 등 체성분 분석</td>
+                    <td>체중 + 18가지 체성분 분석</td>
+                    <td>50g 단위 고정밀 체중 측정</td>
+                </tr>
+                <tr>
+                    <td><strong>스마트폰 앱 연동</strong></td>
+                    <td>블루투스 (전용 앱)</td>
+                    <td>블루투스 (Fitdays 앱)</td>
+                    <td>미지원 (올라서면 즉시 측정)</td>
+                </tr>
+                <tr>
+                    <td><strong>건전지 유지비</strong></td>
+                    <td>0원 (충전식)</td>
+                    <td>0원 (충전식)</td>
+                    <td>0원 (자가발전 반영구)</td>
+                </tr>
+                <tr>
+                    <td><strong>추천 대상</strong></td>
+                    <td>가성비 좋은 C타입 스마트 체중계</td>
+                    <td>검증된 브랜드로 체계적 다이어트 관리</td>
+                    <td>충전도 건전지도 귀찮은 분, 위생적인 스테인리스</td>
+                </tr>
+                <tr>
+                    <td><strong>실시간 평점 및 리뷰</strong></td>
+                    <td><span class="badge-need-check">확인 필요</span></td>
+                    <td><span class="badge-need-check">확인 필요</span></td>
+                    <td><span class="badge-need-check">확인 필요</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 사용 팁 -->
+    <div class="guide-box">
+        <h4>💡 충전식/무건전지 체중계 꿀팁</h4>
+        <ul>
+            <li><strong>C타입/USB 충전식 체중계(오아, 앳플리):</strong> 한 번 완충해 두면 3~6개월 동안 전원 걱정 없이 쓸 수 있습니다. 가급적 일반 5V 어댑터나 PC 포트 충전을 권장합니다.</li>
+            <li><strong>자가발전 체중계(카스 H50):</strong> 충전 케이블 연결조차 번거롭다면 발끝으로 중앙 버튼을 한 번 꾹 눌러주면 바로 켜지는 자가발전 방식이 가장 편리합니다.</li>
+            <li><strong>실시간 혜택 확인:</strong> 각 카드의 [쿠팡에서 실시간 가격 확인 ↗] 링크를 누르면 당일 로켓배송 여부와 와우회원 할인가를 바로 확인하실 수 있습니다.</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

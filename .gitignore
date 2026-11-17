@@ -1,0 +1,27 @@
+# OS 및 시스템 파일
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# 에디터 및 IDE 설정
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 임시 및 테스트 파일
+*.tmp
+*.bak
+*.log
+scratch/
+test_*.jpg
+
+# 환경 설정 및 비밀 파일
+.env
+.env.*
+*.local
